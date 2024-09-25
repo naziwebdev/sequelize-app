@@ -1,7 +1,7 @@
 import { DataTypes, Optional, Model } from "sequelize";
 import db from "../db";
 
-// in models dont put columns that have relation
+// in models dont put columns that have relation(author_id)
 
 interface ArticleAttributes {
   id: number;
