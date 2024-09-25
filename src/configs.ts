@@ -1,11 +1,6 @@
 export default {
     db: {
-      dbUser: process.env.DB_USER,
-      dbPassword: process.env.DB_PASSWORD,
-      dbHost:process.env.DB_HOST,
-      dbName:process.env.DB_NAME,
-      dbPort:process.env.DB_PORT,
-      dbDialect:process.env.DB_DIALECT,
+      uri:process.env.DB_URI,
       poolSize: process.env.DB_POOL_SIZE,
     },
   
