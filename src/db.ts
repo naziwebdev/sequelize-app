@@ -7,4 +7,5 @@ const db = new Sequelize( configs.db.uri! , {
 
 
 
+
 export default db
