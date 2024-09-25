@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node build/src",
     "dev": "dotenv -e .env nodemon ./dist/server.js",
+    "db":"dotenv -e .env -- sequelize-cli db:create --config ./dist/sequelizeConfigs.js"
   },
   "keywords": [],
   "author": "",

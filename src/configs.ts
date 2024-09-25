@@ -19,7 +19,9 @@ export default {
       refreshTokenExpireIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
     },
     google:{},
-    redis:{},
+    redis:{
+      uri:process.env.REDIS_URI
+    },
     domin:process.env.DOMIN,
     isProduction : process.env.NODE_ENV === 'production' 
   };
