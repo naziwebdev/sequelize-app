@@ -9,7 +9,7 @@
     "start": "node build/src",
     "dev": "dotenv -e .env nodemon ./dist/server.js",
     "db": "dotenv -e .env -- sequelize-cli db:create --config ./dist/sequelizeConfigs.js",
-    "migrate": "dotenv -e .env -- sequelize-cli db:migrate --config ./dist/sequelizeConfigs.js "
+    "migrate": "dotenv -e .env -- sequelize-cli db:migrate  --config ./dist/sequelizeConfigs.js "
   },
   "keywords": [],
   "author": "",
