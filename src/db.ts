@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize";
 import configs from "./configs";
 
 const db = new Sequelize(configs.db.uri!, {
