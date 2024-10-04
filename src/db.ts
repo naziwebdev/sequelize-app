@@ -1,19 +1,18 @@
 import { Sequelize } from "sequelize";
 import configs from "./configs";
 
-const db = new Sequelize(configs.db.uri!, {
+const db: Sequelize = new Sequelize(configs.db.uri!, {
   logging: configs.isProduction ? false : console.log,
 });
 
-//* JsDoc
-/** @type {import('sequelize').ModelCtor<import('sequelize').Model<any, any>} */
-const User = require("./models/User");
-/** @type {import('sequelize').ModelCtor<import('sequelize').Model<any, any>} */
-const Tag = require("./models/Tag");
-/** @type {import('sequelize').ModelCtor<import('sequelize').Model<any, any>} */
-const TagsArticles = require("./models/TagsArticles");
-/** @type {import('sequelize').ModelCtor<import('sequelize').Model<any, any>} */
-const Article = require("./models/Articles");
+import User from "./models/User";
+User(db)
+import Article from "./models/Article";
+Article(db)
+import Tag from "./models/Tag";
+Tag(db)
+import TagsArticles from "./models/TagsArticles";
+TagsArticles(db)
 
 //one-to-many
 User.hasMany(Article, {

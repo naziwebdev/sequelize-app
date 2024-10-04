@@ -1,5 +1,5 @@
 import { Model, DataTypes, Optional } from "sequelize";
-import db from "../db";
+import { Sequelize } from "sequelize";
 
 interface UserAttributes {
   id: number;
@@ -21,8 +21,8 @@ interface UserInstance
   updatedAt?: Date;
 }
 
-const User = () => {
-  db.define<UserInstance>(
+const User = (sequelize: Sequelize) => {
+  sequelize.define<UserInstance>(
     "user",
     {
       id: {

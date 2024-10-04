@@ -1,8 +1,8 @@
-import db from "../db";
+import { Sequelize } from "sequelize";
 
-const TagsArticles = () => {
-  db.define(
-    "tags_article",
+const TagsArticles = (sequelize:Sequelize) => {
+  sequelize.define(
+    "tags_articles",
     {},
     {
       tableName: "tags_articles",

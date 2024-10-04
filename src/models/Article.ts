@@ -1,5 +1,5 @@
 import { DataTypes, Optional, Model } from "sequelize";
-import db from "../db";
+import { Sequelize } from "sequelize";
 
 // in models dont put columns that have relation(author_id)
 
@@ -20,8 +20,8 @@ interface ArticleInstance
   updatedAt?: Date;
 }
 
-const Article = () => {
-  db.define<ArticleInstance>(
+const Article = (sequelize:Sequelize) => {
+  sequelize.define<ArticleInstance>(
     "article",
     {
       id: {
@@ -56,5 +56,6 @@ const Article = () => {
     }
   );
 };
+
 
 export default Article;
