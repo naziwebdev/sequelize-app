@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize";
-
-const TagsArticles = (sequelize:Sequelize) => {
-  sequelize.define(
+import db from "../db";
+const TagsArticles = db.define(
     "tags_articles",
     {},
     {
@@ -9,6 +7,6 @@ const TagsArticles = (sequelize:Sequelize) => {
       timestamps: false,
     }
   );
-};
+
 
 export default TagsArticles;

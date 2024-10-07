@@ -1,18 +1,16 @@
 import { Sequelize } from "sequelize";
 import configs from "./configs";
 
+import User from "./models/User";
+import Article from "./models/Article";
+import Tag from "./models/Tag";
+import TagsArticles from "./models/TagsArticles";
+
+
 const db: Sequelize = new Sequelize(configs.db.uri!, {
   logging: configs.isProduction ? false : console.log,
 });
 
-import User from "./models/User";
-User(db)
-import Article from "./models/Article";
-Article(db)
-import Tag from "./models/Tag";
-Tag(db)
-import TagsArticles from "./models/TagsArticles";
-TagsArticles(db)
 
 //one-to-many
 User.hasMany(Article, {
