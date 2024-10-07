@@ -1,18 +1,23 @@
 import { User } from "../associateModels";
 import bcrypt from "bcryptjs";
+import loginSchema from "../validators/loginSchema";
 import { Strategy } from "passport-local";
-
 
 export const localStrategy = new Strategy(
   async (username: string, password: string, done: any) => {
-    const user = await User.findOne({ where: { username }, raw: true });
+    try {
+      await loginSchema.validate({ username, password }, { abortEarly: false });
+      const user = await User.findOne({ where: { username }, raw: true });
 
-    if (!user) return done(null, false);
+      if (!user) return done(null, false);
 
-    const isValidPassword = await bcrypt.compare(password, user?.password!);
+      const isValidPassword = await bcrypt.compare(password, user?.password!);
 
-    if (!isValidPassword) return done(null, false);
+      if (!isValidPassword) return done(null, false);
 
-    return done(null, user);
+      return done(null, user);
+    } catch (error) {
+      throw error;
+    }
   }
 );

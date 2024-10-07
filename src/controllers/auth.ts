@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../associateModels";
-import { registerTypes } from "../tsTypes/user.types";
+import { registerTypes , IUser} from "../tsTypes/user.types";
 import registerSchema from "../validators/registerSchema";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -102,6 +102,51 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
+
+
+    const user = req.user as IUser
+
+
+    const accessToken = jwt.sign(
+      { userID: user?.id },
+      configs.auth.accessTokenSecretKey!,
+      {
+        expiresIn: configs.auth.accessTokenExpireIn,
+      }
+    );
+
+    const refreshToken = jwt.sign(
+      { userID: user.id },
+      configs.auth.refreshTokenAccessKey!,
+      {
+        expiresIn: configs.auth.refreshTokenExpireIn,
+      }
+    );
+
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 12);
+
+    redis.set(
+      `refteshToken:${user.id}`,
+      hashedRefreshToken,
+      "EX" as any,
+      configs.auth.refreshTokenExpireIn!
+    );
+
+    res.cookie("access-token", accessToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 9000000,
+    });
+
+    res.cookie("refresh-token", hashedRefreshToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 9000000,
+    });
+
+    return res.status(200).json({ message: "user login successfully" });
+
+
   } catch (error) {
     throw error;
   }
