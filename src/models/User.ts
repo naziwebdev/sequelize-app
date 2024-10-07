@@ -47,7 +47,7 @@ const User =  db.define<UserInstance>(
       unique: true,
     },
     email: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },

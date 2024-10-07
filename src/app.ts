@@ -4,6 +4,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import { localStrategy } from "./strategies/localStrategy";
 import passport from "passport";
+import authRouter from './routes/auth'
 
 
 const app = express();
@@ -31,9 +32,14 @@ app.use(cookieParser());
 //statics files
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
-//routes
 
+//passport 
 passport.use(localStrategy)
+
+//routes
+app.use('/auth',authRouter)
+
+
 
 //error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
