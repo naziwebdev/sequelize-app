@@ -3,6 +3,7 @@ import app from "./app";
 import configs from "./configs";
 import redis from "./redis";
 
+
 async function startServer() {
   try {
     await db.authenticate();

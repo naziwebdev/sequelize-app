@@ -1,6 +1,7 @@
 import { Model, Optional, DataTypes } from "sequelize";
 import db from "../db";
 
+
 interface TagAttributes {
   id: number;
   title: string;
@@ -13,7 +14,7 @@ interface TagInstance
   extends Model<TagAttributes, TagCreationAttributes>,
     TagAttributes {}
 
-const Tag = db.define<TagInstance>(
+const Tag = db?.define<TagInstance>(
     "tag",
     {
       id: {

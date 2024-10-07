@@ -19,7 +19,7 @@ interface ArticleInstance
   updatedAt?: Date;
 }
 
-const Article = db.define<ArticleInstance>(
+const Article = db?.define<ArticleInstance>(
     "article",
     {
       id: {

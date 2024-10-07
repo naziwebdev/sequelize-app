@@ -1,5 +1,6 @@
-import { Model, DataTypes, Optional } from "sequelize";
 import db from "../db";
+import { Model, DataTypes, Optional } from "sequelize";
+
 
 interface UserAttributes {
   id: number;
@@ -12,6 +13,8 @@ interface UserAttributes {
   provider: "local" | "google";
 }
 
+
+
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 interface UserInstance
@@ -21,7 +24,7 @@ interface UserInstance
   updatedAt?: Date;
 }
 
-const User = db.define<UserInstance>(
+const User =  db.define<UserInstance>(
   "user",
   {
     id: {

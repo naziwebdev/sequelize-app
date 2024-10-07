@@ -1,5 +1,5 @@
 import db from "../db";
-const TagsArticles = db.define(
+const TagsArticles = db?.define(
     "tags_articles",
     {},
     {

@@ -5,7 +5,9 @@ import cookieParser from "cookie-parser";
 import { localStrategy } from "./strategies/localStrategy";
 import passport from "passport";
 
+
 const app = express();
+
 
 //cors policy
 const corsOptions = {

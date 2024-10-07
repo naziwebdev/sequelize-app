@@ -1,6 +1,7 @@
-import { User } from "../db";
+import { User } from "../associateModels";
 import bcrypt from "bcryptjs";
 import { Strategy } from "passport-local";
+
 
 export const localStrategy = new Strategy(
   async (username: string, password: string, done: any) => {
