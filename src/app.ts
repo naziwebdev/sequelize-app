@@ -1,7 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
-import path, { join } from "path";
+import path from "path";
 import cookieParser from "cookie-parser";
+import { localStrategy } from "./strategies/localStrategy";
+import passport from "passport";
 
 const app = express();
 
@@ -28,6 +30,8 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
 //routes
+
+passport.use(localStrategy)
 
 //error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
