@@ -4,11 +4,10 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import { localStrategy } from "./strategies/localStrategy";
 import passport from "passport";
-import authRouter from './routes/auth'
-
+import * as controller from "./controllers/captcha";
+import authRouter from "./routes/auth";
 
 const app = express();
-
 
 //cors policy
 const corsOptions = {
@@ -32,14 +31,12 @@ app.use(cookieParser());
 //statics files
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
-
-//passport 
-passport.use(localStrategy)
+//passport
+passport.use(localStrategy);
 
 //routes
-app.use('/auth',authRouter)
-
-
+app.get("/captcha", controller.get);
+app.use("/auth", authRouter);
 
 //error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

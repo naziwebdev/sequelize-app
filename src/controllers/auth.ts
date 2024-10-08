@@ -5,7 +5,6 @@ import registerSchema from "../validators/registerSchema";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
-import db from "../db";
 import redis from "../redis";
 import configs from "../configs";
 
