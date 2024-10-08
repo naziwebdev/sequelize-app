@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
 import { localStrategy } from "./strategies/localStrategy";
+import { jwtAccessTokenStrategy } from "./strategies/jwtAccessTokenStrategy";
 import passport from "passport";
 import * as controller from "./controllers/captcha";
 import authRouter from "./routes/auth";
@@ -33,6 +34,7 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 
 //passport
 passport.use(localStrategy);
+passport.use('accessToken', jwtAccessTokenStrategy)
 
 //routes
 app.get("/captcha", controller.get);
