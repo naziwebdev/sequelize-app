@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const loginSchema = yup.object().shape({
+const loginLocalSchema = yup.object().shape({
   username: yup
     .string()
     .min(3, "at least char is 3")
@@ -15,4 +15,11 @@ const loginSchema = yup.object().shape({
     .required("this field is required"),
 });
 
-export default loginSchema;
+
+const captchaSchema = yup.object().shape({
+  uuid: yup.string().uuid().required("this field is required"),
+  captcha: yup.string().max(4).required("this field is required"),
+})
+
+
+export {loginLocalSchema,captchaSchema}

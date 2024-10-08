@@ -1,12 +1,12 @@
 import { User } from "../associateModels";
 import bcrypt from "bcryptjs";
-import loginSchema from "../validators/loginSchema";
+import { loginLocalSchema } from "../validators/loginSchema";
 import { Strategy } from "passport-local";
 
 export const localStrategy = new Strategy(
   async (username: string, password: string, done: any) => {
     try {
-      await loginSchema.validate({ username, password }, { abortEarly: false });
+      await loginLocalSchema.validate({ username, password }, { abortEarly: false });
       const user = await User.findOne({ where: { username }, raw: true });
 
       if (!user) return done(null, false);

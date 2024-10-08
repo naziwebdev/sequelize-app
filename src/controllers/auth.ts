@@ -91,7 +91,7 @@ export const register = async (
 
     return res.status(201).json({ message: "user register successfully" });
   } catch (error) {
-    throw error;
+    next(error)
   }
 };
 
@@ -147,6 +147,6 @@ export const login = async (
 
 
   } catch (error) {
-    throw error;
+    next(error)
   }
 };
