@@ -16,9 +16,11 @@ router
   )
   .get(controller.getAll)
 
+  router.route('/:slug').get(controller.findBySlug)
 
   router.route('/:id').put(passport.authenticate("accessToken", { session: false }),
   upload.single("cover"),
   controller.update)
+  .delete(passport.authenticate('accessToken',{session:false}),controller.remove)
 
 module.exports = router;

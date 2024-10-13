@@ -1,6 +1,6 @@
 const { Article, Tag, User } = require("../db");
 const slugify = require("slugify");
-const articleSchema = require("../validators/articleSchema");
+const {articleSchema, findBySlugSchema} = require("../validators/articleSchema");
 const { where } = require("sequelize");
 
 exports.create = async (req, res, next) => {
@@ -166,3 +166,79 @@ exports.update = async (req, res, next) => {
     next(error);
   }
 };
+
+
+exports.findBySlug = async (req,res,next) => {
+  try {
+
+    const {slug} = req.params
+
+    await findBySlugSchema.validate({slug},{abortEarly:false})
+
+    const article = await Article.findOne({
+      where:{
+        slug
+      },
+      attributes:{
+        exclude:['author_id']
+      },
+      include:[
+        {
+          model:Tag,
+          attributes:['title'],
+          through:{
+            attributes:[]
+          }
+          ,
+        },
+        {
+          model:User,
+          attributes:{
+            exclude:['password']
+          },
+          as:"author"
+        }
+      ]
+
+    })
+
+    if (!article) {
+      return res.status(404).json({ message: "Article not found !!" });
+    }
+
+    
+    return res.status(200).json({article})
+
+    
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.remove = async (req,res,next) => {
+  try {
+
+    const {id} = req.params
+
+    if (isNaN(id) || id <= 0) {
+      return res.status(400).json({ error: "Invalid article ID" });
+    }
+
+    const article =  await Article.findByPk(id,{raw:true})
+
+    if(!article){
+      return res.status(404).json({ error: "not found article" });
+    }
+
+    if (article.author_id !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden !!" });
+    }
+
+    await Article.destroy({where:{id}})
+
+    return res.status(200).json({ message: "Article removed successfully" });
+    
+  } catch (error) {
+    next(error)
+  }
+}

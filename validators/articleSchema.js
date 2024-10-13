@@ -26,4 +26,15 @@ const articleSchema = yup.object().shape({
     .required("tags is required"),
 });
 
-module.exports = articleSchema
+const findBySlugSchema = yup.object().shape({
+  slug: yup
+    .string()
+    .min(3, "at least char is 3")
+    .max(250, "max char is 250")
+    .required("name field is required"),
+});
+
+
+
+
+module.exports = {articleSchema,findBySlugSchema}
