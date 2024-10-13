@@ -16,4 +16,9 @@ router
   )
   .get(controller.getAll)
 
+
+  router.route('/:id').put(passport.authenticate("accessToken", { session: false }),
+  upload.single("cover"),
+  controller.update)
+
 module.exports = router;
