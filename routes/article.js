@@ -13,6 +13,7 @@ router
     passport.authenticate("accessToken", { session: false }),
     upload.single("cover"),
     controller.create
-  );
+  )
+  .get(controller.getAll)
 
 module.exports = router;

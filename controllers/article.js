@@ -1,10 +1,15 @@
-const { Article, Tag } = require("../db");
+const { Article, Tag  , User} = require("../db");
 const slugify = require("slugify");
 const articleSchema = require("../validators/articleSchema");
 
 exports.create = async (req, res, next) => {
   try {
     let { title, content, tags } = req.body;
+
+    await articleSchema.validate(
+      { title, content, tags },
+      { abortEarly: false }
+    );
     let slug = slugify(title, { lower: true });
     const copyOfSlug = slug;
     const authorId = req.user.id;
@@ -44,6 +49,32 @@ exports.create = async (req, res, next) => {
         }
       }
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAll = async (req, res, next) => {
+  try {
+    const articles = await Article.findAll({
+      include: [
+        {
+          model: Tag,
+          attributes: ["title"],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: User,
+          attributes: { exclude: ["passpord"] },
+          as: "author",
+        },
+      ],
+    order:[['created_at','DESC']]
+    });
+
+    return res.status(200).json(articles);
   } catch (error) {
     next(error);
   }
