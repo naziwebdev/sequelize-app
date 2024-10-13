@@ -144,3 +144,22 @@ exports.me = async (req,res,next) => {
     next(error)
   }
 }
+
+
+exports.logout = async (req,res,next) => {
+  try {
+
+    const userId = req.user.id
+
+    await redis.del(`refteshToken:${userId}`)
+
+    res.clearCookie('access-token',{httpOnly:true})
+    res.clearCookie('refresh-token',{httpOnly:true})
+
+    
+    return res.status(200).json({ message: "User logged out successfully" });
+
+  } catch (error) {
+    next(error)
+  }
+}
