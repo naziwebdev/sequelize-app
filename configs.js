@@ -18,7 +18,10 @@ module.exports = {
     accessTokenExpireIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
     refreshTokenExpireIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
   },
-  google: {},
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
   redis: {
     uri: process.env.REDIS_URI,
   },

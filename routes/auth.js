@@ -7,7 +7,11 @@ const router = express.Router();
 router.route("/register").post(controller.register);
 router
   .route("/login")
-  .post(passport.authenticate("local", { session: false }), controller.login);
+  .post(
+    validateCaptcha,
+    passport.authenticate("local", { session: false }),
+    controller.login
+  );
 
 router
   .route("/refresh")
@@ -26,5 +30,15 @@ router
     passport.authenticate("accessToken", { session: false }),
     controller.logout
   );
+
+router.route("/google").get(
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
+);
+
+router
+  .route("/google/callback")
+  .get(passport.authenticate("google", { session: false }), controller.login);
 
 module.exports = router;
