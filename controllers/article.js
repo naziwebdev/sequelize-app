@@ -1,7 +1,6 @@
 const { Article, Tag, User } = require("../db");
 const slugify = require("slugify");
 const {articleSchema, findBySlugSchema} = require("../validators/articleSchema");
-const { where } = require("sequelize");
 
 exports.create = async (req, res, next) => {
   try {

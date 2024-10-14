@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const localStrategy = require("./strategies/localStrategy");
 const jwtAccessTokenStrategy = require("./strategies/jwtAccessTokenStrategy");
+const jwtRefreshTokenStrategy = require("./strategies/jwtRefreshTokenStrategy");
 const passport = require("passport");
 const controller = require("./controllers/captcha");
 const authRouter = require("./routes/auth");
@@ -36,6 +37,7 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 //passport
 passport.use(localStrategy);
 passport.use("accessToken", jwtAccessTokenStrategy);
+passport.use("refreshToken", jwtRefreshTokenStrategy);
 
 //routes
 app.get("/captcha", controller.get);
