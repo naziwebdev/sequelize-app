@@ -9,9 +9,22 @@ router
   .route("/login")
   .post(passport.authenticate("local", { session: false }), controller.login);
 
-router.route('/me').get(passport.authenticate('accessToken',{session:false}),controller.me)
+router
+  .route("/refresh")
+  .post(
+    passport.authenticate("refreshToken", { session: false }),
+    controller.refresh
+  );
 
-router.route('/logout').post(passport.authenticate('accessToken',{session:false}),controller.logout)
+router
+  .route("/me")
+  .get(passport.authenticate("accessToken", { session: false }), controller.me);
 
+router
+  .route("/logout")
+  .post(
+    passport.authenticate("accessToken", { session: false }),
+    controller.logout
+  );
 
 module.exports = router;

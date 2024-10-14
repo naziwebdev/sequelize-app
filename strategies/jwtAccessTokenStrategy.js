@@ -9,9 +9,9 @@ const cookieExtractor = (req) => {
     token = req.cookies["access-token"];
   }
 
+  console.log(token)
   return token;
 };
-
 module.exports = new Strategy(
   {
     jwtFromRequest: cookieExtractor,
@@ -20,6 +20,7 @@ module.exports = new Strategy(
   async (payload, done) => {
     try {
 
+   
       const user = await User.findByPk(payload.userID, {
         raw: true,
         attributes: { exclude: ["password"] },

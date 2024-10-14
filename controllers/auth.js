@@ -60,7 +60,7 @@ exports.register = async (req, res, next) => {
 
     const hashedRefreshToken = await bcrypt.hash(refreshToken, 12);
 
-    redis.set(
+    await redis.set(
       `refteshToken:${user.id}`,
       hashedRefreshToken,
       "EX",
@@ -73,7 +73,7 @@ exports.register = async (req, res, next) => {
       maxAge: 9000000,
     });
 
-    res.cookie("refresh-token", hashedRefreshToken, {
+    res.cookie("refresh-token",refreshToken, {
       httpOnly: true,
       sameSite: "strict",
       maxAge: 9000000,
@@ -107,7 +107,7 @@ exports.login = async (req, res, next) => {
 
     const hashedRefreshToken = await bcrypt.hash(refreshToken, 12);
 
-    redis.set(
+    await redis.set(
       `refteshToken:${user.id}`,
       hashedRefreshToken,
       "EX",
@@ -120,7 +120,7 @@ exports.login = async (req, res, next) => {
       maxAge: 9000000,
     });
 
-    res.cookie("refresh-token", hashedRefreshToken, {
+    res.cookie("refresh-token",refreshToken, {
       httpOnly: true,
       sameSite: "strict",
       maxAge: 9000000,
@@ -132,34 +132,53 @@ exports.login = async (req, res, next) => {
   }
 };
 
-
-exports.me = async (req,res,next) => {
+exports.me = async (req, res, next) => {
   try {
+    const user = req.user;
 
-    const user = req.user
-
-    return res.status(200).json(user)
-    
+    return res.status(200).json(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
-
-exports.logout = async (req,res,next) => {
+exports.logout = async (req, res, next) => {
   try {
+    const userId = req.user.id;
 
-    const userId = req.user.id
+    await redis.del(`refteshToken:${userId}`);
 
-    await redis.del(`refteshToken:${userId}`)
+    res.clearCookie("access-token", { httpOnly: true });
+    res.clearCookie("refresh-token", { httpOnly: true });
 
-    res.clearCookie('access-token',{httpOnly:true})
-    res.clearCookie('refresh-token',{httpOnly:true})
-
-    
     return res.status(200).json({ message: "User logged out successfully" });
-
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+exports.refresh = async (req, res, next) => {
+  try {
+
+    const accessToken = jwt.sign(
+      { userID:req.user.id },
+      configs.auth.accessTokenSecretKey,
+      {
+        expiresIn: configs.auth.accessTokenExpireIn,
+      }
+    );
+
+    res.cookie("access-token", accessToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 9000000,
+    });
+
+
+    return res
+      .status(200)
+      .json({ message: "access-token refreshed succcessfully" });
+  } catch (error) {
+    next(error);
+  }
+};

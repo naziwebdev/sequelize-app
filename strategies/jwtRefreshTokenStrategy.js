@@ -19,18 +19,18 @@ module.exports = new Strategy(
     secretOrKey: configs.auth.refreshTokenAccessKey,
     passReqToCallback: true,
   },
-  async (req, payload, done) => {
+  async (req,payload, done) => {
     try {
-      const refreshToken = cookieExtractor();
+      const refreshToken = cookieExtractor(req);
 
-      const user = await User.findByPk(payload.userId, {
+      const user = await User.findByPk(payload.userID, {
         raw: true,
         attributes: { exclude: ["password"] },
       });
 
       if (!user) return done(null, false);
 
-      const cacheRefreshToken = await redis.get(`refreshToken:${user.id}`);
+      const cacheRefreshToken = await redis.get(`refteshToken:${user.id}`);
 
       if (!cacheRefreshToken) return done(null, false);
 
